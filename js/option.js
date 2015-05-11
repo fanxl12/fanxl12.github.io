@@ -293,7 +293,7 @@ $(document).ready(function(){
         t_browser_has_css3 = true;
     else
         t_browser_has_css3 = false;
-    load_photostream();
+    //load_photostream();
     load_main_slider();
     load_tooltips();
     load_carousel();
