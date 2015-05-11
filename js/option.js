@@ -293,7 +293,6 @@ $(document).ready(function(){
         t_browser_has_css3 = true;
     else
         t_browser_has_css3 = false;
-    //load_photostream();
     load_main_slider();
     load_tooltips();
     load_carousel();
@@ -317,57 +316,6 @@ $(document).ready(function () {
 $(document).ready(function(){
     $("a[data-rel^='prettyPhoto']").prettyPhoto();
   });
-
-
-
-/* ================= PHOTOSTREAM ================= */
-var load_photostream = function(){
-    $('.flickrImages').each(function(){
-        var stream = $(this);
-        var stream_userid = stream.attr('data-userid');
-        var stream_items = parseInt(stream.attr('data-items'));
-        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&id="+stream_userid+"&jsoncallback=?", function(stream_feed){
-            for(var i=0;i<stream_items&&i<stream_feed.items.length;i++){
-                var stream_function = function(){
-                    if(stream_feed.items[i].media.m){
-                        var stream_a = $('<a>').addClass('PhotostreamLink').attr('href',stream_feed.items[i].link).attr('target','_blank');
-                        var stream_img = $('<img>').addClass('PhotostreamImage').attr('src',stream_feed.items[i].media.m).attr('alt','').each(function(){
-                            var t_this = this;
-                            var j_this = $(this);
-                            var t_loaded_function = function(){
-                                stream_a.append(t_this);
-                                if(j_this.width()<j_this.height())
-                                    j_this.attr('style','width: 60px !important; height: 60px !important;');
-                                else
-                                    j_this.attr('style','width: 60px !important; height: 60px !important;');
-                            };
-                            var t_loaded_ready = false;
-                            var t_loaded_check = function(){
-                                if(!t_loaded_ready){
-                                    t_loaded_ready = true;
-                                    t_loaded_function();
-                                }
-                            }
-                            var t_loaded_status = function(){
-                                if(t_this.complete&&j_this.height()!==0)
-                                    t_loaded_check();
-                            }
-                            t_loaded_status();
-                            $(this).load(function(){
-                                t_loaded_check();
-                            });
-                            if(BrowserDetect.browser==='Explorer')
-                                this.src = this.src;
-                        });
-                        stream.append($('<li>').append(stream_a));
-                    }
-                }
-                stream_function();
-            }
-        });
-    });
-};
-
 
 
 /* ================= IE fix ================= */
